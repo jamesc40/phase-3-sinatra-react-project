@@ -8,7 +8,7 @@ puts "🌱 Seeding spices..."
 # Seed your database here
 10.times do |i|
   name = Faker::Name.first_name
-  User.create(user_name: name.downcase,
+  User.create(username: "#{name.downcase}#{i}",
               password: Faker::Internet.password,
               name: name
              ) 
