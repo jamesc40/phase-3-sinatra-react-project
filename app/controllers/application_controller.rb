@@ -9,7 +9,8 @@ class ApplicationController < Sinatra::Base
 
   post '/login' do
     user = User.find_by(username: params[:username], 
-                        password: params[:password])
+                        password: params[:password]
+                       )
     if user 
       #true.to_json
       user.id.to_json
@@ -25,7 +26,8 @@ class ApplicationController < Sinatra::Base
   post '/signup' do
     user = User.create(username: params[:username],
                 password: params[:password],
-                name: params[:name]
+                name: params[:name],
+                image: params[:image]
                )
     user.id.to_json
   end
@@ -37,7 +39,7 @@ class ApplicationController < Sinatra::Base
         user.update("#{key}": value)
       end
     end
-    "success".to_json
+    status 200
   end
 
   delete '/user/:id' do
@@ -46,6 +48,6 @@ class ApplicationController < Sinatra::Base
 
   get '/user/:id' do
     user = User.find(params[:id]) 
-    user.to_json(only: [:id, :name], include: :exercises)
+    user.to_json(only: [:id, :name], include: { exercises: { include: :workout } })
   end
 end
