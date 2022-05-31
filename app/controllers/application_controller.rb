@@ -11,7 +11,8 @@ class ApplicationController < Sinatra::Base
     user = User.find_by(username: params[:username], 
                         password: params[:password])
     if user 
-      true.to_json
+      #true.to_json
+      user.id
     else
       status 400
       false.to_json
