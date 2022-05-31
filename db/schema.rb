@@ -22,10 +22,12 @@ ActiveRecord::Schema.define(version: 2022_05_29_194836) do
     t.string "username"
     t.string "password"
     t.string "name"
+    t.string "image"
   end
 
   create_table "workouts", force: :cascade do |t|
     t.string "workout_type"
+    t.string "image"
   end
 
 end

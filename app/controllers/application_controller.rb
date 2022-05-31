@@ -12,7 +12,7 @@ class ApplicationController < Sinatra::Base
                         password: params[:password])
     if user 
       #true.to_json
-      user.id
+      user.id.to_json
     else
       status 400
       false.to_json
@@ -23,10 +23,11 @@ class ApplicationController < Sinatra::Base
   #end
   
   post '/signup' do
-    User.create(username: params[:username],
+    user = User.create(username: params[:username],
                 password: params[:password],
                 name: params[:name]
                )
+    user.id.to_json
   end
 
   patch '/user/:id' do
