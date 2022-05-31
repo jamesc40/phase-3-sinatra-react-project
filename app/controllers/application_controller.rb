@@ -48,6 +48,6 @@ class ApplicationController < Sinatra::Base
 
   get '/user/:id' do
     user = User.find(params[:id]) 
-    user.to_json(only: [:id, :name], include: { exercises: { include: :workout } })
+    user.to_json(only: [:id, :name, :image], include: { exercises: { include: :workout } })
   end
 end
