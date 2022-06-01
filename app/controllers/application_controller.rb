@@ -41,10 +41,10 @@ class ApplicationController < Sinatra::Base
 
   get '/user/:id' do
     user = User.find(params[:id])
-    #exercises = user.sort_exercises
-    #workouts = user.workouts_for_sorted_exercises
-    #{ user: user, exercises: exercises, workouts: workouts }.to_json
-    user.exercises.order('date DESC').to_json(methods: [:workout, :user])
+    exercises = user.sort_exercises
+    workouts = user.workouts_for_sorted_exercises
+    { user: user, exercises: exercises, workouts: workouts }.to_json
+    #user.exercises.order('date DESC').to_json(methods: [:workout, :user])
     #user.to_json(only: [:id, :name, :image], include: { exercises: { include: :workout } })
   end
 
