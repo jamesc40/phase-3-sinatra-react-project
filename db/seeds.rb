@@ -6,8 +6,10 @@ Exercise.all.destroy_all
 puts "🌱 Seeding spices..."
 
 # Seed your database here
-10.times do |i|
+1.times do |i|
+
   name = Faker::Name.first_name
+
   User.create(username: "#{name.downcase}#{i}",
               password: Faker::Internet.password,
               name: name,
@@ -17,7 +19,9 @@ puts "🌱 Seeding spices..."
 end
 
 exercises = ['Run', 'Swim', 'Weight Lift', 'Bike']
+
 exercises.length.times do |i|
+
   Workout.create(workout_type: exercises[i],
                  image: nil
                 )
