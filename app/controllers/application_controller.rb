@@ -4,15 +4,11 @@ require 'pry'
 class ApplicationController < Sinatra::Base
   set :default_content_type, 'application/json'
   
-  get "/" do
-  end
-
   post '/login' do
     user = User.find_by(username: params[:username], 
                         password: params[:password]
                        )
     if user 
-      #true.to_json
       user.id.to_json
     else
       status 400
@@ -20,9 +16,6 @@ class ApplicationController < Sinatra::Base
     end
   end
 
-  #get '/logout' do
-  #end
-  
   post '/signup' do
     user = User.create(username: params[:username],
                 password: params[:password],
@@ -48,9 +41,34 @@ class ApplicationController < Sinatra::Base
 
   get '/user/:id' do
     user = User.find(params[:id])
+    #exercises = user.sort_exercises
+    #workouts = user.workouts_for_sorted_exercises
+    #{ user: user, exercises: exercises, workouts: workouts }.to_json
     user.exercises.order('date DESC').to_json(methods: [:workout, :user])
-    #.includes(:user, :workout)
     #user.to_json(only: [:id, :name, :image], include: { exercises: { include: :workout } })
-    #user.to_json(only: [:id, :name, :image], include: [:exercises])
   end
+
+  get '/workouts' do
+    { workouts: Workout.all, 
+      most_popular_workout: Workout.most_popular, 
+      most_active_user: User.most_active 
+    }.to_json
+  end
+  
+  post '/exercise/new' do
+    workout = Workout.find_by(workout_type: params[:workout_type])
+
+    Exercise.create(user_id: params[:user_id], 
+                    workout: workout,
+                    date: params[:date],
+                    difficulty: params[:difficulty],
+                    duration: params[:duration]
+                   )
+
+    unless Exercise.exists?(workout: workout)   
+      status 400
+    end
+
+  end
+
 end
