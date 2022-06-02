@@ -9,7 +9,7 @@ class ApplicationController < Sinatra::Base
                         password: params[:password]
                        )
     if user 
-      user.id.to_json
+      user.to_json
     else
       status 400
       false.to_json
@@ -22,7 +22,7 @@ class ApplicationController < Sinatra::Base
                 name: params[:name],
                 image: params[:image]
                )
-    user.id.to_json
+    user.to_json
   end
 
   patch '/user/:id' do
@@ -43,7 +43,12 @@ class ApplicationController < Sinatra::Base
     user = User.find(params[:id])
     exercises = user.sort_exercises
     workouts = user.workouts_for_sorted_exercises
-    { user: user, exercises: exercises, workouts: workouts }.to_json
+    { user: user, 
+      total_minutes: user.total_minutes, 
+      total_exercises: user.total_exercises, 
+      exercises: exercises, 
+      workouts: workouts 
+    }.to_json
     #user.exercises.order('date DESC').to_json(methods: [:workout, :user])
     #user.to_json(only: [:id, :name, :image], include: { exercises: { include: :workout } })
   end

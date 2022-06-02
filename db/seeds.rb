@@ -6,7 +6,7 @@ Exercise.all.destroy_all
 puts "🌱 Seeding spices..."
 
 # Seed your database here
-1.times do |i|
+5.times do |i|
 
   name = Faker::Name.first_name
 
@@ -19,11 +19,17 @@ puts "🌱 Seeding spices..."
 end
 
 exercises = ['Run', 'Swim', 'Weight Lift', 'Bike']
+images = [
+  “https://physioyves.com/wp-content/uploads/2021/04/file-20210127-17-if809z.jpg”,
+  “https://www.xtremeswim.com/assets/1/6/MainFCKEditorDimension/men_crop.jpg”,
+  “https://www.ledleisure.co.uk/i/uploads/gallery/strength%20blog%20main%20photo.jpg”,
+  “https://caloriesburnedhq.com/img/biking-distance-300x300.jpg”
+]
 
 exercises.length.times do |i|
 
   Workout.create(workout_type: exercises[i],
-                 image: nil
+                 image: images[i]
                 )
 end
 
