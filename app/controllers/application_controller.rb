@@ -63,17 +63,18 @@ class ApplicationController < Sinatra::Base
   post '/exercise/new' do
     workout = Workout.find_by(workout_type: params[:workout_type])
 
-    Exercise.create(user_id: params[:user_id], 
+    exercise = Exercise.create(user_id: params[:user_id], 
                     workout: workout,
                     date: params[:date],
                     difficulty: params[:difficulty],
                     duration: params[:duration]
                    )
 
-    unless Exercise.exists?(workout: workout)   
+    if exercise 
+      { exercise: exercise, workout: workout }.to_json  
+    else
       status 400
     end
-
   end
 
 end
