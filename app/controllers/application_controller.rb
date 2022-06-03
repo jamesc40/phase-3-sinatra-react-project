@@ -1,5 +1,4 @@
 require 'pry'
-#enable :sessions
 
 class ApplicationController < Sinatra::Base
   set :default_content_type, 'application/json'
@@ -62,8 +61,9 @@ class ApplicationController < Sinatra::Base
   
   post '/exercise/new' do
     workout = Workout.find_by(workout_type: params[:workout_type])
+    user = User.find(params[:user_id])
 
-    exercise = Exercise.create(user_id: params[:user_id], 
+    exercise = Exercise.create(user: user, 
                     workout: workout,
                     date: params[:date],
                     difficulty: params[:difficulty],
@@ -71,10 +71,14 @@ class ApplicationController < Sinatra::Base
                    )
 
     if exercise 
-      { exercise: exercise, workout: workout }.to_json  
+      { exercise: exercise, 
+        workout: workout, 
+        total_exercises: user.total_exercises,
+        total_minutes: user.total_minutes 
+      }.to_json  
     else
       status 400
     end
-  end
 
+  end
 end
